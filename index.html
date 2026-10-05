@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en" dir="ltr">
+    <head>
+                <meta http-equiv="x-ua-compatible" content="ie=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1 viewport-fit=cover">
+   <meta name="description" content="">
+
+   <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" >
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" ></script>
+
+
+    <!-- Logo -->
+     <link rel="icon" type="png" href="logo.png">
+
+        <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Lora:ital,wght@0,400..700;1,400..700&family=Petit+Formal+Script&family=Vollkorn:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    
+
+<!-- CSS here -->
+   <link rel="stylesheet" href="jm.css">
+
+   <!-- Title here -->
+    <title>Jimin's Birthday</title>
+
+
+    <!-- Script Load -->
+     <script>
+        window.addEventListener("load", function () {
+            const loader = document.getElementById("loader");
+
+            loader.classList.add("hidden");
+
+            setTimeout(function () {
+                loader.remove ();
+            }, 600);
+        });
+        </script>
+
+
+
+        <!-- Script Letter -->
+         <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const openLetter = document.getElementById("openLetter");
+            const closeLetter = document.getElementById("closeLetter");
+            const letterModal = document.getElementById("letterModal");
+
+            // Open Letter
+            openLetter.addEventListener("click", function () {
+                letterModal.classList.add("active");
+                document.body.style.overflow = "hidden";
+            });
+
+            // Close Letter
+            closeLetter.addEventListener("click", function () {
+                letterModal.classList.remove("active");
+                document.body.style.overflow = "";
+            });
+
+            // Bastan Ba Click Rooye Fazaye Biroon
+            letterModal.addEventListener("click", function (event) {
+                if (event.target === letterModal) {
+                    letterModal.classList.remove("active");
+                    document.body.style.overflow = "";
+                }
+            });
+            });
+         </script>
+
+
+        <!-- Script Moments -->
+         <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const quotes = document.querySelectorAll(".typing-quote");
+                quotes.forEach(function (quote, index) {
+                    const text = quote.dataset.text;
+                    let current = 0;
+                    let deleting = false;
+                    function animation() {
+                        if (!deleting) {
+                            quote.textContent = text.substring(0, current);
+                            current++;
+                            if (current <= text.length) {
+                                setTimeout(animate, 70);
+                            } else {
+                                setTimeout(function () {
+                                    deleting = true;
+                                    animate();
+                                }, 10000);
+                            }
+                        } else {
+                            current--;
+                            quote.textContent = text.substring(0, current);
+                            if (current > 0) {
+                                setTimeout(animate, 45);
+                            } else {
+                                deleting = false;
+                                setTimeout(function () {
+                                    animate();
+                                }, 2000);
+                            }
+                        }
+                    }
+                    setTimeout(animate, index * 1000);
+                    
+                });
+            });
+         </script>
+
+
+
+         <!-- Script Music -->
+          <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                const players = document.querySelectorAll(".music-player");
+
+                players.forEach((player, playerIndex) => {
+
+                    
+                    const audio = new Audio();
+                    player._audio = audio;
+                    audio.preload = "metadata";
+                    audio.volume = 1;
+
+                    
+
+                    const audioSource = player.dataset.audio;
+
+                    const playButton = player.querySelector(".player-play");
+                    const prevButton = player.querySelector(".player-prev");
+                    const nextButton = player.querySelector(".player-next");
+
+                    const volumeDown = player.querySelector(".volume-down");
+                    const volumeUp = player.querySelector(".volume-up");
+                    const repeatButton = player.querySelector(".repeat");
+                    const shuffleButton = player.querySelector(".shuffle");
+
+                    const seekSlider = player.querySelector(".seek-slider");
+                    const currentTime = player.querySelector(".current-time");
+                    const totalDuration = player.querySelector(".total-duration");
+                    const songTitle = player.querySelector(".song-title");
+
+
+                    // Load Song
+                    audio.src = audioSource;
+
+                    audio.addEventListener("loadedmetadata", () => {
+                        totalDuration.textContent = formatTime(audio.duration);
+
+                        seekSlider.min = 0;
+                        seekSlider.max = 100;
+                        seekSlider.steo = 0.01;
+                        seekSlider.value =0;
+                        seekSlider.style.setProperty("--progress", "0%");
+                    });
+
+                    audio.addEventListener("timeupdate", () => {
+                        if (!audio.duration) return;
+
+                        const progress = (audio.currentTime / audio.duration) * 100;
+
+                        seekSlider.value = progress;
+                        seekSlider.style.setProperty("--progress", `${progress}%`);
+
+                        currentTime.textContent = formatTime(audio.currentTime);
+                    });
+
+                    seekSlider.addEventListener("input", (event) => {
+                        event.stopPropagation();
+
+                        const progress = Number(event.target.value);
+
+                        audio.currentTime = (progress / 100) * audio.duration;
+
+                        seekSlider.style.setProperty("--progress", `${progress}%`);
+                        currentTime.textContent = formatTime(audio.currentTime);
+                        
+                    });
+
+                    seekSlider.addEventListener("click", (event) => {
+                        event.stopPropagation();
+                    });
+
+
+                    // Play / Pause
+                    playButton.addEventListener("click", async () => {
+
+                        // Stop all other players
+                        players.forEach((otherPlayer) => {
+
+                            if (otherPlayer !== player && otherPlayer._audio) {
+                                otherPlayer._audio.pause();
+
+                                const otherPlayButton = 
+                                otherPlayer.querySelector(".player-play");
+
+                                if (otherPlayButton) {
+                                    otherPlayButton.textContent = "▶";
+                                }
+                            }
+                        });
+
+                        if (audio.paused) {
+
+                            try {
+                                await audio.play();
+                                playButton.textContent = "⏸";
+                            } catch (error) {
+                                console.error("Audio play error:", error);
+                            }
+                        } else {
+
+                            audio.pause();
+                            playButton.textContent = "▶";
+                        }
+                    });
+
+
+                    // Previous
+                    prevButton.addEventListener("click", () => {
+
+                        audio.currentTime =0;
+
+                        if (!audio.paused) {
+                            audio.play();
+                        }
+                    });
+
+
+                    // Next
+                    nextButton.addEventListener("click", () => {
+
+                        audio.currentTime =0;
+
+                        if (!audio.paused) {
+                            audio.play();
+                        }
+                    });
+
+
+                    // Volume Down
+                    volumeDown.addEventListener("click", () => {
+
+                        audio.volume = Math.max(0, audio.volume - 0.1);
+                    });
+
+
+                    // Volume Up
+                    volumeUp.addEventListener("click", () => {
+
+                        audio.volume = Math.min(1, audio.volume + 0.1);
+                    });
+
+
+                    // Repeat
+                    // repeatButton.addEventListener("click", () => {
+
+                    //     audio.loop = !audio.loop;
+
+                    //     repeatButton.classList.toggle(
+                    //         "active",
+                    //         audio.loop
+                    //     );
+                    // });
+                    let repeatOn = false;
+
+                    repeatButton.onclick = () => {
+                        repeatOn = !repeatOn;
+
+                        repeatButton.classList.add("repeat-flash");
+
+                        setTimeout(() => {
+                            repeatButton.classList.remove("repeat-flash");
+                        }, 80);
+                    };
+
+                    audio.addEventListener("ended", () => {
+                        if (repeatOn) {
+                            audio.currentTime = 0;
+                            audio.play();
+                        }
+                    });
+
+
+                    // Shuffle
+                    shuffleButton.addEventListener("click", () => {
+
+                        shuffleButton.classList.toggle("active");
+                    });
+
+
+                    // Progress bar
+                    seekSlider.addEventListener("input", () => {
+                        if (!isNaN(audio.duration)) {
+
+                            audio.currentTime =
+                            audio.duration *
+                            (seekSlider.value / 100);
+                        }
+                    });
+
+
+                    // Update Progress
+                    audio.addEventListener("timeupdate", () => {
+
+                        if (!isNaN(audio.duration)) {
+
+                            const progress =
+                            (audio.currentTime / audio.duration) * 100;
+
+                            seekSlider.value = progress;
+
+                            currentTime.textContent =
+                            formatTime(audio.currentTime);
+                        }
+                    });
+
+
+                    // When song ends
+                    audio.addEventListener("ended", () => {
+
+                        seekSlider.value = 0;
+                        currentTime.textContent = "0:00";
+                        playButton.textContent = "▶";
+                    });
+
+
+                    // Time formatter
+                    function formatTime(seconds) {
+
+                        if (isNaN(seconds)) {
+                            return "0:00";
+                        }
+
+                        const minutes = Math.floor(seconds / 60);
+
+                        const secs = Math.floor(seconds % 60)
+                        .toString()
+                        .padStart(2, "0");
+
+                        return `${minutes}:${secs}`;
+                    }
+                });
+            });
+
+
+
+            // Script Collection
+            document.addEventListener("DOMContentLoaded", () => {
+                const collectionPhotos = [
+                "jim1.jpg",
+                "jim2.jpg",
+                "jim3.jpg",
+                "jim4.jpg",
+                "jim5.jpg",
+                "jim6.jpg",
+                "jim7.jpg",
+                "jim8.jpg",
+                "jim9.jpg",
+                "jim10.jpg",
+                "jim11.jpg",
+                "jim12.jpg",
+                "jim13.jpg",
+                "jim14.jpg",
+                "jim15.jpg",
+                "jim16.jpg",
+                "jim17.jpg",
+                "jim18.jpg",
+                "jim19.jpg",
+                "jim20.jpg",
+            ];
+
+            const collectionNicknames = [
+                "୨ৎmy love୨ৎ",
+                "୨ৎmy moon୨ৎ",
+                "୨ৎmy home୨ৎ",
+                "୨ৎmy baby୨ৎ",
+                "୨ৎmy breath୨ৎ",
+                "୨ৎmy soul୨ৎ",
+                "୨ৎmy man୨ৎ",
+                "୨ৎmy heaven୨ৎ",
+                "୨ৎmy sweetheart୨ৎ",
+                "୨ৎmy honey୨ৎ",
+                "୨ৎmy heart୨ৎ",
+                "୨ৎmy angel୨ৎ",
+                "୨ৎmy life୨ৎ",
+                "୨ৎmy pretty boy୨ৎ",
+                "୨ৎmy dearest୨ৎ",
+                "୨ৎmy darling୨ৎ",
+                "୨ৎmy kitty୨ৎ",
+                "୨ৎmy jimin୨ৎ",
+                "୨ৎmy everything୨ৎ",
+                "୨ৎmine୨ৎ"
+            ];
+
+            let collectionIndex = 0;
+
+            const collectionPhoto = 
+            document.getElementById("collectionPhoto");
+
+            const collectionNickname = 
+            document.getElementById("collectionNickname");
+
+            const collectionPrev = 
+            document.getElementById("collectionPrev");
+
+            const collectionNext = 
+            document.getElementById("collectionNext");
+
+
+            function updateCollection () {
+                collectionPhoto.src = collectionPhotos[collectionIndex];
+                collectionNickname.textContent = collectionNicknames[collectionIndex];
+            }
+
+            collectionNext.onclick = function () {
+                collectionIndex++;
+
+                if (collectionIndex >= collectionPhotos.length) {
+                    collectionIndex = 0;
+                }
+
+                updateCollection();
+            };
+
+            collectionPrev.onclick = function () {
+                collectionIndex--;
+
+                if (collectionIndex < 0) {
+                    collectionIndex = collectionPhotos.length - 1;
+                }
+
+                updateCollection();
+            };
+
+            updateCollection();
+            });
+
+
+
+            // Script Little Kisses
+            function initKisses() {
+
+                const kissButtons = document.querySelectorAll(".kiss-button");
+
+                kissButtons.forEach(function (button) {
+
+                    button.addEventListener("click", function () {
+
+                        const message = button.nextElementSibling;
+
+                        if (!message || !message.classList.contains("kiss-message")) {
+                            return;
+                        }
+
+                        const isOpen = message.classList.contains("show");
+
+                        // document.querySelectorAll(".kiss-message").forEach(function (item) {
+                        //     item.classList.remove("show");
+                        // });
+
+                        // document.querySelectorAll(".kiss-button").forEach(function (item) {
+                        //     item.classList.remove("kiss-active");
+                        // });
+
+                        if (!isOpen) {
+                            message.classList.add("show");
+                            button.classList.add("kiss-active");
+                        }
+                    });
+                });
+            } 
+
+            if (document.readyState === "loading") {
+                document.addEventListener("DOMContentLoaded", initKisses);
+            } else {
+                initKisses();
+            }
+            
+            
+          </script>
+
+
+        
+</head>
+<body>
+
+    <!-- Preloader Area Start -->
+     <div id="loader" class="loader-container" style="background-color: black;">
+        <div class="loader"></div>
+     </div>
+     
+     <!-- Preloader Area End -->
+
+
+     <!-- Header Area Start -->
+      <header class="site-header">
+        <nav class="main-nav" id="mainNav">
+
+            <a href="#home">Home</a>
+            <a href="#letter">Letter</a>
+            <a href="#gallery">Gallery</a>
+            <a href="#music">Music</a>
+            <a href="#collection">Collection</a>
+            <a href="#note">Note</a>
+
+        </nav>
+      </header>
+      <!-- Header Area End -->
+
+
+
+      <!-- Section Home Start -->
+       <section id="home" class="home-section">
+        <div class="home-content">
+            <h1 class="home-title">
+                <span class="jimin">Jimin's</span>
+                <span class="birthday">Birthday</span>
+            </h1>
+
+            <div class="home-subtitle">
+                <span class="another-year">Another Year,</span>
+                <span class="more-love">More Love</span>
+            </div>
+
+            <div class="home-divider">
+                <span></span>
+                <b>❦</b>
+                <span></span>
+            </div>
+        </div>
+       </section>
+       <!-- Section Home End -->
+
+
+       <!-- Section Letter Start -->
+        <section id="letter" class="letter-section">
+            <div class="letter-content">
+                <h2 class="letter-title">
+                    A Letter
+                </h2>
+
+                <h3 class="letter-for">
+                    For Jimin₊˚⊹♡
+                </h3>
+
+                <p class="letter-description">
+                    Some words for the one who<br>
+                    makes the world a little brighter.<br><br>
+                    May this letter reach you<br>
+                    with all the love and warmth<br>
+                    in my heart...
+                </p>
+
+                <button class="open-letter-btn" id="openLetter">
+                    Open Letter <span> > </span>
+                </button>
+            </div>
+        </section>
+
+
+        <div class="letter-modal" id="letterModal">
+            <div class="letter-paper">
+
+                <button class="close-letter" id="closeLetter" aria-label="Close letter">🗙</button>
+                <div class="letter-text">
+                    <!-- <p class="letter-greeting">
+                        Dear Jimin
+                    </p>
+
+                    <p>
+                        Matn name ro inja minevisam
+                    </p>
+
+                    <p class="letter-signature">
+                        With love,<br>
+                        Aylin
+                    </p> -->
+                </div>
+            </div>
+        </div>
+        <!-- Section Letter End -->
+
+
+
+        <!-- Section Gallery Start -->
+         <section id="gallery" class="moments-section">
+
+            <div class="moments-stars" aria-label="true">
+                <span class="star star-1">✦</span>
+                <span class="star star-2">✧</span>
+                <span class="star star-3">✦</span>
+                <span class="star star-4">✧</span>
+                <span class="star star-5">✦</span>
+                <span class="star star-6">✧</span>
+                <span class="star star-7">✦</span>
+                <span class="star star-8">✧</span>
+                <span class="star star-9">✦</span>
+                <span class="star star-10">✧</span>
+                <span class="star star-11">✦</span>
+                <span class="star star-12">✧</span>
+                <span class="star star-13">✦</span>
+                <span class="star star-14">✧</span>
+                <span class="star star-15">✦</span>
+                <span class="star star-16">✧</span>
+                <span class="star star-17">✦</span>
+                <span class="star star-18">✧</span>
+                <span class="star star-19">✦</span>
+                <span class="star star-20">✧</span>
+                <span class="star star-21">✦</span>
+                <span class="star star-22">✧</span>
+                <span class="star star-23">✦</span>
+                <span class="star star-24">✧</span>
+                <span class="star star-25">✦</span>
+                <span class="star star-26">✧</span>
+                <span class="star star-27">✦</span>
+                <span class="star star-28">✧</span>
+                <span class="star star-29">✦</span>
+                <span class="star star-30">✧</span>
+                <span class="star star-31">✦</span>
+                <span class="star star-32">✧</span>
+                <span class="star star-33">✦</span>
+                <span class="star star-34">✧</span>
+                <span class="star star-35">✦</span>
+                <span class="star star-36">✧</span>
+                <span class="star star-37">✦</span>
+                <span class="star star-38">✧</span>
+                <span class="star star-39">✦</span>
+                <span class="star star-40">✧</span>
+            </div>
+
+            <!-- Title -->
+             <div class="moments-intro">
+                <h2>Gallery⋆˙⟡</h2>
+                <p>
+                    A few moments, a thousand little feelings<br>
+                    Collected with a little love
+                </p>
+             </div>
+
+             <!-- Photos -->
+              <div class="moments-gallery">
+
+                <!-- 1 -->
+                 <article class="moment-item">
+                    <div class="polaroid">
+                        <img src="JiminPic1 (1).png" alt="Jimin"
+                    </div>
+
+                    <div class="moment-quote">
+                        <div class="quote-decoration">──────────୨ৎ──────────</div>
+                        <p class="typing-quote">A river of kisses around your pretty face</p>
+                        <div class="quote-decoration">──────────୨ৎ──────────</div>
+                    </div>
+                 </article>
+
+                 <!-- 2 -->
+                  <article class="moment-item">
+                    <div class="polaroid">
+                        <img src="JiminPic2 (2).png" alt="Jimin"
+                    </div>
+
+                    <div class="moment-quote">
+                        <div class="quote-decoration">───────────୨ৎ───────────</div>
+                        <p class="typing-quote">I hear you in the lyrics of my favorite songs</p>
+                        <div class="quote-decoration">───────────୨ৎ───────────</div>
+                    </div>
+                 </article>
+
+                 <!-- 3 -->
+                  <article class="moment-item">
+                    <div class="polaroid">
+                        <img src="JiminPic3 (3).png" alt="Jimin"
+                    </div>
+
+                    <div class="moment-quote">
+                        <div class="quote-decoration">────────୨ৎ────────</div>
+                        <p class="typing-quote">The idea of home, for me, is you</p>
+                        <div class="quote-decoration">────────୨ৎ────────</div>
+                    </div>
+                 </article>
+
+                 <!-- 4 -->
+                  <article class="moment-item">
+                    <div class="polaroid">
+                        <img src="JiminPic4 (4).png" alt="Jimin"
+                    </div>
+
+                    <div class="moment-quote">
+                        <div class="quote-decoration">─────────୨ৎ─────────</div>
+                        <p class="typing-quote">Truly, madly, deeply, in love with you</p>
+                        <div class="quote-decoration">─────────୨ৎ─────────</div>
+                    </div>
+                 </article>
+              </div>
+         </section>
+         <!-- Section Gallery End -->
+
+
+
+         <!-- Section Music Start -->
+          <section id="music" class="music-section">
+
+            <!-- Heaadphones -->
+             <img
+             src="headphones.png"
+             class="music-headphones"
+             alt="headphones"
+             >
+
+             <!-- Floating music notes -->
+              <div class="music-notes music-notes-top" aria-hidden="true">
+                <span class="note note-1">♪</span>
+                <span class="note note-2">♫</span>
+                <span class="note note-3">♪</span>
+                <span class="note note-4">♫</span>
+                <span class="note note-5">♪</span>
+                <span class="note note-6">♫</span>
+                <span class="note note-7">♪</span>
+                <span class="note note-8">♫</span>
+              </div>
+
+              <div class="music-notes music-notes-bottom" aria-hidden="true">
+                <span class="note note-1">♪</span>
+                <span class="note note-2">♫</span>
+                <span class="note note-3">♪</span>
+                <span class="note note-4">♫</span>
+                <span class="note note-5">♪</span>
+                <span class="note note-6">♫</span>
+                <span class="note note-7">♪</span>
+                <span class="note note-8">♫</span>
+              </div>
+
+              <!-- Intro -->
+               <div class="music-intro">
+
+                <h2>Music.˚𝄞</h2>
+                <p>
+                    A little melody for every feeling
+                </p>
+               </div>
+
+               <!-- Music players will go here -->
+                <div class="music-player" data-audio="senorita.mp3">
+                    <audio>
+                        <source src="senorita.mp3" type="audio/mp3">
+                    </audio> 
+
+                    <div class="player-wheel">
+                        <button class="player-prev">⏮</button>
+                        <button class="player-play">▶</button>
+                        <button class="player-next">⏭</button>
+                    </div>
+
+                    <div class="player-info">
+
+                        <div class="song-title">
+                            <div class="song-name">Señorita</div>
+                            <div class="artist-name">Shawn Mendes & Camilla Cabello</div>
+                        </div>
+
+                        <div class="player-progress">
+                            <span class="current-time">0:00</span>
+
+                            <input type="range" class="seek-slider" min="0" max="100" value="0">
+
+                            <span class="total-duration">0:0</span>
+                        </div>
+
+                        <div class="player-controls">
+                            <button class="volume-down">-</button>
+                            <button class="repeat">↻</button>
+                            <button class="shuffle">⇄</button>
+                            <button class="volume-up">+</button>
+                        </div>
+                    </div>
+
+                    <audio class="audio-player"></audio>
+                </div>
+
+
+                <div class="music-player" data-audio="Be mine.mp3">
+
+                    <audio>
+                        <source src="Be mine.mp3" type="audio/mp3">
+                    </audio> 
+
+                    <div class="player-wheel">
+                        <button class="player-prev">⏮</button>
+                        <button class="player-play">▶</button>
+                        <button class="player-next">⏭</button>
+                    </div>
+
+                    <div class="player-info">
+
+                        <div class="song-title">
+                            <div class="song-name">Be mine</div>
+                            <div class="artist-name">Azee</div>
+                        </div>
+
+                        <div class="player-progress">
+                            <span class="current-time">0:00</span>
+
+                            <input type="range" class="seek-slider" min="0" max="100" value="0">
+
+                            <span class="total-duration">0:0</span>
+                        </div>
+
+                        <div class="player-controls">
+                            <button class="volume-down">-</button>
+                            <button class="repeat">↻</button>
+                            <button class="shuffle">⇄</button>
+                            <button class="volume-up">+</button>
+                        </div>
+                    </div>
+
+                    <audio class="audio-player"></audio>
+                </div>
+
+
+                <div class="music-player" data-audio="Love You Again.mp3">
+
+                    <audio>
+                        <source src="Love You Again.mp3" type="audio/mp3">
+                    </audio>
+
+                    <div class="player-wheel">
+                        <button class="player-prev">⏮</button>
+                        <button class="player-play">▶</button>
+                        <button class="player-next">⏭</button>
+                    </div>
+
+                    <div class="player-info">
+
+                        <div class="song-title">
+                            <div class="song-name">Love You Again</div>
+                            <div class="artist-name">Plaza</div>
+                        </div>
+
+                        <div class="player-progress">
+                            <span class="current-time">0:00</span>
+
+                            <input type="range" class="seek-slider" min="0" max="100" value="0">
+
+                            <span class="total-duration">0:0</span>
+                        </div>
+
+                        <div class="player-controls">
+                            <button class="volume-down">-</button>
+                            <button class="repeat">↻</button>
+                            <button class="shuffle">⇄</button>
+                            <button class="volume-up">+</button>
+                        </div>
+                    </div>
+
+                    <audio class="audio-player"></audio>
+                </div>
+
+
+                <div class="music-player" data-audio="Better Than you.mp3">
+
+                    <audio>
+                        <source src="Better Than You.mp3" type="audio/mp3">
+                    </audio>
+
+                    <div class="player-wheel">
+                        <button class="player-prev">⏮</button>
+                        <button class="player-play">▶</button>
+                        <button class="player-next">⏭</button>
+                    </div>
+
+                    <div class="player-info">
+
+                        <div class="song-title">
+                            <div class="song-name">Better Than You</div>
+                            <div class="artist-name">Nick Alexandr</div>
+                        </div>
+
+                        <div class="player-progress">
+                            <span class="current-time">0:00</span>
+
+                            <input type="range" class="seek-slider" min="0" max="100" value="0">
+
+                            <span class="total-duration">0:0</span>
+                        </div>
+
+                        <div class="player-controls">
+                            <button class="volume-down">-</button>
+                            <button class="repeat">↻</button>
+                            <button class="shuffle">⇄</button>
+                            <button class="volume-up">+</button>
+                        </div>
+                    </div>
+
+                    <audio class="audio-player"></audio>
+                </div>
+
+                
+
+                <!-- Rotating CD -->
+                 <img
+                 src="music-disc.png"
+                 class="music-disc"
+                 alt="musicDisc"
+                 >
+          </section>
+          <!-- Section Music End -->
+
+
+
+          <!-- Section Collection Start -->
+           <section id="collection" class="collection-section">
+
+            <div class="collection-intro">
+                <h2>Collection☾⋆⁺</h2>
+                <p>A little collection of my favorite yous</p>
+            </div>
+            
+            <div class="collection-frame">
+
+                <!-- Bow Png -->
+                 <img src="ribbon.png"
+                 class="collection-bow"
+                 alt="ribbon">
+
+                 <!-- Previous -->
+                <button class="collection-arrow collection-prev" id="collectionPrev" aria-label="Previous photo">
+                    &lt;
+                </button>
+
+                <!-- Photo -->
+                <div class="collection-photo-area">
+                    <img
+                    src="jim1.jpg"
+                    class="collection-photo"
+                    id="collectionPhoto"
+                    alt="Jimin" >
+                </div>
+
+                <!-- Next -->
+                <button class="collection-arrow collection-next" id="collectionNext" aria-label="Next photo">
+                    &gt;
+                </button>
+
+                <!-- Bottom caption area -->
+                 <div class="collection-caption-area">
+
+                    <div class="collection-caption">
+                        <span id="collectionNickname">୨ৎmy love୨ৎ</span>
+                    </div>
+                 </div>
+            </div>
+
+
+
+            <div class="collection-divider divider-slider-kisses">𓇼₊˚‧︵‿︵‿︵‿︵‿₊୨୧₊‿︵‿︵‿︵‿︵‧˚₊𓇼</div>
+
+
+
+            <!-- Little Kisses Section -->
+             <div class="little-kisses">
+
+                <div class="kisses-intro">
+                    <h3>Little Kisses</h3>
+                    <p>tap them</p>
+                </div>
+
+                <div class="kisses-grid">
+
+                    <div class="kiss-item">
+                        <button class="kiss-button" type="button">
+                            <img src="kiss.png" alt="kiss">
+                        </button>
+                        <p class="kiss-message">for your doll face</p>
+                    </div>
+
+                    <div class="kiss-item">
+                        <button class="kiss-button" type="button">
+                            <img src="kiss.png" alt="kiss">
+                        </button>
+                        <p class="kiss-message">for your sweet smile</p>
+                    </div>
+
+                    <div class="kiss-item">
+                        <button class="kiss-button" type="button">
+                            <img src="kiss.png" alt="kiss">
+                        </button>
+                        <p class="kiss-message">for your honey voice</p>
+                    </div>
+
+                    <div class="kiss-item">
+                        <button class="kiss-button" type="button">
+                            <img src="kiss.png" alt="kiss">
+                        </button>
+                        <p class="kiss-message">for your fairy mind</p>
+                    </div>
+
+                    <div class="kiss-item">
+                        <button class="kiss-button" type="button">
+                            <img src="kiss.png" alt="kiss">
+                        </button>
+                        <p class="kiss-message">for your angel heart</p>
+                    </div>
+
+                    <div class="kiss-item">
+                        <button class="kiss-button" type="button">
+                            <img src="kiss.png" alt="kiss">
+                        </button>
+                        <p class="kiss-message">for your pretty eyes</p>
+                    </div>
+                </div>
+             </div>
+
+
+
+             <div class="collection-divider divider-slider-wishes">𓇼₊˚‧︵‿︵‿︵‿︵‿₊୨୧₊‿︵‿︵‿︵‿︵‧˚₊𓇼</div>
+
+
+
+             <!-- Birthday Wishes Section -->
+              <div class="birthday-wishes">
+
+                <div class="wishes-intro">
+                    <h3>Birthday Wishes</h3>
+                    <p>A few little wishes for you</p>
+                </div>
+
+                <div class="wishes-board">
+
+                    <!-- Jimin Photo -->
+                     <div class="wishes-photo">
+                        <img src="jaman.jpg" alt="jimin">
+                     </div>
+
+                     <!-- Wishes -->
+                      <div class="wishes-list">
+
+                        <div class="wish-item">
+                            <img src="wish1.png" class="wish-png" alt="wish">
+                            <p>wishing you endless happiness and laughter</p>
+                        </div>
+
+                        <div class="wish-item">
+                            <img src="wish2.png" class="wish-png" alt="wish">
+                            <p>hope this year brings beautiful memories</p>
+                        </div>
+
+                        <div class="wish-item">
+                            <img src="wish3.png" class="wish-png" alt="wish">
+                            <p>may your heart feel deeply loved</p>
+                        </div>
+
+                        <div class="wish-item">
+                            <img src="wish4.png" class="wish-png" alt="wish">
+                            <p>enjoy laughter and unforgettable birthday moments</p>
+                        </div>
+
+                        <div class="wish-item">
+                            <img src="wish5.png" class="wish-png" alt="wish">
+                            <p>celebrate this beautiful chapter of your life</p>
+                        </div>
+                      </div>
+                </div>
+              </div>
+
+            
+           </section>
+           <!-- Section Collection End -->
+
+
+
+           <!-- Section Note Start -->
+            <!-- Note -->
+             <section id="note" class="note-section">
+
+                <div class="note-content">
+
+                    <div class="note-intro">
+                        <h2>One Last Note</h2>
+                        <p>A little something from my heart to yours</p>
+                    </div>
+
+                    <img src="note.png" class="note-image" alt="A little note">
+
+                    <img src="jimini1.png" class="note-deco note-jimin-1" alt="jimin">
+                    <img src="heart1 (1).png" class="note-deco note-heart-1" alt="heart">
+
+                    <img src="jimini2.png" class="note-deco note-jimin-2" alt="jimin">
+                    <img src="heart2 (2).png" class="note-deco note-heart-2" alt="heart">
+
+                </div>
+
+             </section>
+
+
+     
+</body>
