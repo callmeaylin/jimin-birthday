@@ -200,7 +200,9 @@
                                 otherPlayer.querySelector(".player-play");
 
                                 if (otherPlayButton) {
-                                    otherPlayButton.textContent = "▶";
+                                    // otherPlayButton.textContent = "▶";
+                                    otherPlayButton.classList.remove("is-playing");
+                                    otherPlayButton.setAttribute("aria-label", "Play");
                                 }
                             }
                         });
@@ -209,14 +211,18 @@
 
                             try {
                                 await audio.play();
-                                playButton.textContent = "⏸";
+                                // playButton.textContent = "⏸";
+                                playButton.classList.add("is-playing");
+                                playButton.setAttribute("aria-label", "Pause");
                             } catch (error) {
                                 console.error("Audio play error:", error);
                             }
                         } else {
 
                             audio.pause();
-                            playButton.textContent = "▶";
+                            // playButton.textContent = "▶";
+                            playButton.classList.remove("is-playing");
+                            playButton.setAttribute("aria-label", "Play");
                         }
                     });
 
@@ -326,7 +332,9 @@
 
                         seekSlider.value = 0;
                         currentTime.textContent = "0:00";
-                        playButton.textContent = "▶";
+                        // playButton.textContent = "▶";
+                        playButton.classList.remove("is-playing");
+                        playButton.setAttribute("aria-label", "Play");
                     });
 
 
@@ -567,8 +575,17 @@
         <div class="letter-modal" id="letterModal">
             <div class="letter-paper">
 
-                <button class="close-letter" id="closeLetter" aria-label="Close letter">🗙</button>
-                <div class="letter-text">
+                <!-- <button class="close-letter" id="closeLetter" aria-label="Close letter">🗙</button> -->
+
+                <button class="close-letter" id="closeLetter" aria-label="Close letter">
+                    <span></span>
+                    <span></span>
+                </button>
+                <div class="letter-text"> 
+
+
+
+
                     <!-- <p class="letter-greeting">
                         Dear Jimin
                     </p>
@@ -752,9 +769,29 @@
                     </audio> 
 
                     <div class="player-wheel">
-                        <button class="player-prev">⏮</button>
+                        <!-- <button class="player-prev">⏮</button>
                         <button class="player-play">▶</button>
-                        <button class="player-next">⏭</button>
+                        <button class="player-next">⏭</button> -->
+                        <button class="player-prev" aria-label="Previous">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M4 4H6V20H4Z M18 4L9 12L18 20Z" fill="currentColor"></path>
+                            </svg>
+                        </button>
+
+                        <button class="player-play" aria-label="Play">
+                            <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M7 4l13 8-13 8z"></path>
+                            </svg>
+                            <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M8 5v14 M16 5v14"></path>
+                            </svg>
+                        </button>
+
+                        <button class="player-next" aria-label="Next">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M17 4H19V20H17Z M5 4L15 12L5 20Z" fill="currentColor"></path>
+                            </svg>
+                        </button>
                     </div>
 
                     <div class="player-info">
@@ -791,9 +828,29 @@
                     </audio> 
 
                     <div class="player-wheel">
-                        <button class="player-prev">⏮</button>
+                        <!-- <button class="player-prev">⏮</button>
                         <button class="player-play">▶</button>
-                        <button class="player-next">⏭</button>
+                        <button class="player-next">⏭</button> -->
+                        <button class="player-prev" aria-label="Previous">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M4 4H6V20H4Z M18 4L9 12L18 20Z" fill="currentColor"></path>
+                            </svg>
+                        </button>
+
+                        <button class="player-play" aria-label="Play">
+                            <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M7 4l13 8-13 8z"></path>
+                            </svg>
+                            <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M8 5v14 M16 5v14"></path>
+                            </svg>
+                        </button>
+
+                        <button class="player-next" aria-label="Next">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M17 4H19V20H17Z M5 4L15 12L5 20Z" fill="currentColor"></path>
+                            </svg>
+                        </button>
                     </div>
 
                     <div class="player-info">
@@ -830,9 +887,29 @@
                     </audio>
 
                     <div class="player-wheel">
-                        <button class="player-prev">⏮</button>
+                        <!-- <button class="player-prev">⏮</button>
                         <button class="player-play">▶</button>
-                        <button class="player-next">⏭</button>
+                        <button class="player-next">⏭</button> -->
+                        <button class="player-prev" aria-label="Previous">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M4 4H6V20H4Z M18 4L9 12L18 20Z" fill="currentColor"></path>
+                            </svg>
+                        </button>
+
+                        <button class="player-play" aria-label="Play">
+                            <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M7 4l13 8-13 8z"></path>
+                            </svg>
+                            <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M8 5v14 M16 5v14"></path>
+                            </svg>
+                        </button>
+
+                        <button class="player-next" aria-label="Next">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M17 4H19V20H17Z M5 4L15 12L5 20Z" fill="currentColor"></path>
+                            </svg>
+                        </button>
                     </div>
 
                     <div class="player-info">
@@ -869,9 +946,29 @@
                     </audio>
 
                     <div class="player-wheel">
-                        <button class="player-prev">⏮</button>
+                        <!-- <button class="player-prev">⏮</button>
                         <button class="player-play">▶</button>
-                        <button class="player-next">⏭</button>
+                        <button class="player-next">⏭</button> -->
+                        <button class="player-prev" aria-label="Previous">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M4 4H6V20H4Z M18 4L9 12L18 20Z" fill="currentColor"></path>
+                            </svg>
+                        </button>
+
+                        <button class="player-play" aria-label="Play">
+                            <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M7 4l13 8-13 8z"></path>
+                            </svg>
+                            <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M8 5v14 M16 5v14"></path>
+                            </svg>
+                        </button>
+
+                        <button class="player-next" aria-label="Next">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M17 4H19V20H17Z M5 4L15 12L5 20Z" fill="currentColor"></path>
+                            </svg>
+                        </button>
                     </div>
 
                     <div class="player-info">

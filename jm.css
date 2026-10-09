@@ -482,8 +482,8 @@ html {
 /* The Page */
 .letter-paper {
   position: relative;
-  width: min(720px, 88vw);
-  height: min(760px, 82vh);
+  width: min(680px, 82vw);
+  height: min(700px, 76vh);
   overflow-y: auto;
   box-sizing: border-box;
   padding: clamp(50px, 7vw, 80px);
@@ -508,6 +508,11 @@ html {
 
 /* Close Button */
 .close-letter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  cursor: pointer;
   position: absolute;
   top: 13px;
   right: 16px;
@@ -525,6 +530,22 @@ html {
   cursor: pointer;
   z-index: 5;
   transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.close-letter span {
+  position: absolute;
+  width: 16px;
+  height: 1.5px;
+  background: #5a3b2c;
+  border-radius: 2px;
+}
+
+.close-letter span:first-child {
+  transform: rotate(45deg);
+}
+
+.close-letter span:last-child {
+  transform: rotate(-45deg);
 }
 
 .close-letter:hover {
@@ -1594,7 +1615,7 @@ body {
   width: 75px;
   height: 75px;
   border-radius: 50%;
-  display: flex;
+  display: flex; 
   align-items: center;
   justify-content: center;
   gap: 3px;
@@ -1630,6 +1651,63 @@ body {
   z-index: 11;
   pointer-events: auto;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.player-wheel button svg {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+  overflow: visible;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.player-prev svg,
+.player-next svg,
+.player-play svg {
+  width: 16px;
+  height: 16px;
+  display: block;
+  fill: currentColor;
+  flex-shrink: 0;
+}
+
+.player-wheel .player-prev svg,
+.player-wheel .player-next svg,
+.player-wheel .player-play .icon-play {
+  fill: currentColor;
+  stroke: currentColor;
+  stroke-width: 1.2;
+  stroke-linejoin: round;
+}
+
+.player-wheel .player-play .icon-pause {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+.player-play .icon-play {
+  display: block;
+}
+
+.player-play .icon-pause {
+  display: none;
+}
+
+.player-play.is-playing .icon-play {
+  display: none;
+}
+
+.player-play.is-playing .icon-pause {
+  display: block;
 }
 
 .player-wheel button:focus,
