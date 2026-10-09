@@ -516,6 +516,8 @@ html {
   padding: 0;
   border: none;
   background: transparent;
+  appearance: none;
+  -webkit-appearance: none;
   color: #5a3b2c;
   font-family: Georgia, serif;
   font-size: 24px;
@@ -1603,7 +1605,9 @@ body {
   border: none;
   background: transparent !important;
   color: #4b3024 !important;
-  font-family: Georgia, serif !important;
+  /* font-family: Georgia, serif !important; */
+  font-family: Arial, Helvetica, sans-serif;
+  font-variant-emoji: text;
   font-size: 22px;
   font-weight: normal;
   padding: 4px 8px;
@@ -1612,6 +1616,13 @@ body {
   min-height: auto;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
+}
+
+.player-play {
+  font-family: Arial, Helvetica, sans-serif;
+  font-variant-emoji: text;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 .player-wheel button {
